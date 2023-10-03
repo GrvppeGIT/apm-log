@@ -2,6 +2,7 @@ package services
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 
 	"github.com/GrvppeGIT/apm-log/show/models"
@@ -70,6 +71,8 @@ func (s *Show) setArguments(level string, message string) {
 func (s *Show) setArgumentsRequest(ctx *gin.Context) {
 	req := models.GetRequest()
 
+	fmt.Println(req)
+
 	s.show.Timestamp = s.dt.GetDatetime()
 	s.show.Cnpj = utils.GetCnpj(req.Auth)
 	s.show.Message = "O request chegou com sucesso!"
@@ -83,6 +86,8 @@ func (s *Show) setArgumentsRequest(ctx *gin.Context) {
 
 func (s *Show) setArgumentsResponse(ctx *gin.Context) {
 	res := models.GetResponse()
+
+	fmt.Println(res)
 
 	s.show.Timestamp = s.dt.GetDatetime()
 	s.show.Message = "Retorno da requisição com sucesso! (response) - para mais detalhes, verificar http.response.body.content"
