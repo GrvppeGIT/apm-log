@@ -16,26 +16,23 @@ type bodyLogWriter struct {
 	body *bytes.Buffer
 }
 
-var blw *bodyLogWriter
-
 func TraceRequest(ctx *gin.Context) {
 	beforeRequest(ctx)
+
+	blw := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: ctx.Writer}
+	ctx.Writer = blw
+
 	ctx.Next()
-	afterRequest(ctx)
+
+	afterRequest(ctx, blw.Status(), blw.body.String())
 }
 
 func beforeRequest(ctx *gin.Context) {
 	models.StartRequest(ctx)
-
-	blw = &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: ctx.Writer}
-	ctx.Writer = blw
-
 	show.LogRequest(ctx)
-
 }
 
-func afterRequest(ctx *gin.Context) {
-	models.StartResponse(blw.Status(), blw.body.String())
-
+func afterRequest(ctx *gin.Context, status int, body string) {
+	models.StartResponse(status, body)
 	show.LogResponse(ctx)
 }

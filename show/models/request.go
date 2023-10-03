@@ -43,7 +43,6 @@ func getBody(ctx *gin.Context) string {
 		return ""
 	}
 
-	fmt.Println(body)
 	return string(body)
 }
 
