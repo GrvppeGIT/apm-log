@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 
@@ -38,9 +39,11 @@ func getBody(ctx *gin.Context) string {
 	body, err := io.ReadAll(ctx.Request.Body)
 
 	if err != nil {
+		fmt.Println(err)
 		return ""
 	}
 
+	fmt.Println(body)
 	return string(body)
 }
 
