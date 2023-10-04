@@ -16,12 +16,6 @@ type Printer struct {
 	context string
 }
 
-func (p *Printer) Initialize(log models.Log, dt utils.DateTime) {
-	p.log = log
-	p.dt = dt
-	p.context = ""
-}
-
 func (p *Printer) SetContext(className string) {
 	p.context = className
 }
@@ -30,24 +24,16 @@ func (p *Printer) SetCnpj(cnpj string) {
 	p.log.Cnpj = cnpj
 }
 
-func (p *Printer) Log(message string) {
-	p.setArguments("info", message)
+func (p *Printer) Log(message string, context ...string) {
+	p.setArguments("info", message, context)
 }
 
-func (p *Printer) LogRequest(ctx *gin.Context) {
-	p.setArgumentsRequest(ctx)
+func (p *Printer) Debug(message string, context ...string) {
+	p.setArguments("debug", message, context)
 }
 
-func (p *Printer) LogResponse(ctx *gin.Context) {
-	p.setArgumentsResponse(ctx)
-}
-
-func (p *Printer) Debug(message string) {
-	p.setArguments("debug", message)
-}
-
-func (p *Printer) Warn(message string) {
-	p.setArguments("warn", message)
+func (p *Printer) Warn(message string, context ...string) {
+	p.setArguments("warn", message, context)
 }
 
 // func (p *Printer) Error(message string) {
@@ -58,11 +44,25 @@ func (p *Printer) Warn(message string) {
 // next, private functions ==>
 // ===========================
 
-func (p *Printer) setArguments(level string, message string) {
+func (p *Printer) initialize(log models.Log, dt utils.DateTime) {
+	p.log = log
+	p.dt = dt
+	p.context = ""
+}
+
+func (p *Printer) logRequest(ctx *gin.Context) {
+	p.setArgumentsRequest(ctx)
+}
+
+func (p *Printer) logResponse(ctx *gin.Context) {
+	p.setArgumentsResponse(ctx)
+}
+
+func (p *Printer) setArguments(level string, message string, context []string) {
 	p.log.Timestamp = p.dt.GetDatetime()
 	p.log.Message = message
 	p.log.LogLevel = level
-	p.log.LogLogger = p.context
+	p.addContext(context)
 
 	p.stdout()
 }
@@ -74,7 +74,6 @@ func (p *Printer) setArgumentsRequest(ctx *gin.Context) {
 	p.log.Cnpj = utils.GetCnpj(req.Auth)
 	p.log.Message = "Request recebido!"
 	p.log.LogLevel = "info"
-	p.log.LogLogger = p.context
 
 	p.log.SetHttpRequest(req.Body, req.Method, req.Referrer)
 
@@ -87,7 +86,6 @@ func (p *Printer) setArgumentsResponse(ctx *gin.Context) {
 
 	p.log.Timestamp = p.dt.GetDatetime()
 	p.log.Message = "Response recebido!"
-	p.log.LogLogger = p.context
 	p.log.LogLevel = p.getLevelHttp(res.Status)
 
 	p.log.SetHttpResponse(res.Body, res.Status)
@@ -111,6 +109,14 @@ func (p *Printer) getLevelHttp(status int) string {
 
 	return "info"
 
+}
+
+func (p *Printer) addContext(context []string) {
+	if len(context) > 0 {
+		p.log.LogLogger = context[0]
+	} else if p.context != "" {
+		p.log.LogLogger = p.context
+	}
 }
 
 func (p *Printer) resetArgumentsLog() {

@@ -29,11 +29,9 @@ func StartLog(nameApp string, version string, tz string) Log {
 	// set service name and version
 	Logger.SetService(MainLog.Options.Name, MainLog.Options.Version)
 
-	MainLog.Printer.Initialize(Logger, Dt)
+	MainLog.Printer.initialize(Logger, Dt)
 	MainLog.Printer.SetContext("Main")
 	MainLog.Printer.Log("Module apm-log started...")
 
 	return MainLog
 }
-
-// "Test Name", Version: "0.0.0", Tz: "America/Sao_Paulo"

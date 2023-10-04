@@ -1,9 +1,8 @@
-package middlewares
+package logger
 
 import (
 	"bytes"
 
-	"github.com/GrvppeGIT/apm-log/logger"
 	"github.com/GrvppeGIT/apm-log/logger/models"
 
 	"github.com/gin-gonic/gin"
@@ -32,10 +31,10 @@ func TraceRequest(ctx *gin.Context) {
 
 func beforeRequest(ctx *gin.Context) {
 	models.StartRequest(ctx)
-	logger.MainLog.Printer.LogRequest(ctx)
+	MainLog.Printer.logRequest(ctx)
 }
 
 func afterRequest(ctx *gin.Context, status int, body string) {
 	models.StartResponse(status, body)
-	logger.MainLog.Printer.LogResponse(ctx)
+	MainLog.Printer.logResponse(ctx)
 }
