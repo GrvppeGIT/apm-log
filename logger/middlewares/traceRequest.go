@@ -3,13 +3,11 @@ package middlewares
 import (
 	"bytes"
 
-	"github.com/GrvppeGIT/apm-log/show/models"
-	"github.com/GrvppeGIT/apm-log/show/services"
+	"github.com/GrvppeGIT/apm-log/logger"
+	"github.com/GrvppeGIT/apm-log/logger/models"
 
 	"github.com/gin-gonic/gin"
 )
-
-var show services.Show
 
 type bodyLogWriter struct {
 	gin.ResponseWriter
@@ -34,10 +32,10 @@ func TraceRequest(ctx *gin.Context) {
 
 func beforeRequest(ctx *gin.Context) {
 	models.StartRequest(ctx)
-	show.LogRequest(ctx)
+	logger.MainLog.Printer.LogRequest(ctx)
 }
 
 func afterRequest(ctx *gin.Context, status int, body string) {
 	models.StartResponse(status, body)
-	show.LogResponse(ctx)
+	logger.MainLog.Printer.LogResponse(ctx)
 }

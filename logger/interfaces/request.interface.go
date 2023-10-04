@@ -1,7 +1,7 @@
 package interfaces
 
 // import (
-// 	model "github.com/GrvppeGIT/apm-log/show/models"
+// 	model "github.com/GrvppeGIT/apm-log/logger/models"
 
 // 	"github.com/gin-gonic/gin"
 // )
