@@ -72,7 +72,7 @@ func (s *Show) setArgumentsRequest(ctx *gin.Context) {
 
 	s.show.Timestamp = s.dt.GetDatetime()
 	s.show.Cnpj = utils.GetCnpj(req.Auth)
-	s.show.Message = "O request chegou com sucesso!"
+	s.show.Message = "Request recebido!"
 	s.show.LogLevel = "info"
 	s.show.LogLogger = s.context
 
@@ -86,7 +86,7 @@ func (s *Show) setArgumentsResponse(ctx *gin.Context) {
 	res := models.GetResponse()
 
 	s.show.Timestamp = s.dt.GetDatetime()
-	s.show.Message = "Retorno da requisição com sucesso! (response) - para mais detalhes, verificar http.response.body.content"
+	s.show.Message = "Response recebido!"
 	s.show.LogLogger = s.context
 	s.show.LogLevel = s.getLevelHttp(res.Status)
 
