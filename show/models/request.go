@@ -1,7 +1,6 @@
 package models
 
 import (
-	"io"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -35,13 +34,17 @@ func getReferrer(ctx *gin.Context) string {
 }
 
 func getBody(ctx *gin.Context) string {
-	body, err := io.ReadAll(ctx.Request.Body)
+	// body, err := ctx.GetRawData()
 
-	if err != nil {
-		return ""
-	}
+	// if err != nil {
+	// 	fmt.Println("==========================")
+	// 	fmt.Println(err)
+	// 	return ""
+	// }
 
-	return string(body)
+	// return string(body)
+
+	return "{}"
 }
 
 func getToken(ctx *gin.Context) string {
