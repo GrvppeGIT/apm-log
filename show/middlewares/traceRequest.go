@@ -16,6 +16,11 @@ type bodyLogWriter struct {
 	body *bytes.Buffer
 }
 
+func (w bodyLogWriter) Write(b []byte) (int, error) {
+	w.body.Write(b)
+	return w.ResponseWriter.Write(b)
+}
+
 func TraceRequest(ctx *gin.Context) {
 	beforeRequest(ctx)
 
