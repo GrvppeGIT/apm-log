@@ -79,6 +79,7 @@ func (s *Show) setArgumentsRequest(ctx *gin.Context) {
 	s.show.SetHttpRequest(req.Body, req.Method, req.Referrer)
 
 	s.stdout()
+	s.show.ResetHttpRequest()
 }
 
 func (s *Show) setArgumentsResponse(ctx *gin.Context) {
