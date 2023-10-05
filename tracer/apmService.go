@@ -19,7 +19,9 @@ func (ap *ApmService) StartTransaction() {
 
 	ap.Transaction = ap.apmInstance.StartTransaction("test", "request")
 
-	fmt.Println(ap.Transaction.TraceContext())
+	tr := ap.Transaction.TraceContext()
+
+	fmt.Println(tr.Trace.String())
 
 }
 
