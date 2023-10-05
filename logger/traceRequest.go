@@ -4,6 +4,7 @@ import (
 	"bytes"
 
 	"github.com/GrvppeGIT/apm-log/logger/models"
+	"github.com/GrvppeGIT/apm-log/tracer"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,6 +20,7 @@ func (w bodyLogWriter) Write(b []byte) (int, error) {
 }
 
 func TraceRequest(ctx *gin.Context) {
+	MainLog.Printer.Log("starting TraceRequest...")
 	beforeRequest(ctx)
 
 	blw := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: ctx.Writer}
@@ -32,9 +34,11 @@ func TraceRequest(ctx *gin.Context) {
 func beforeRequest(ctx *gin.Context) {
 	models.StartRequest(ctx)
 	MainLog.Printer.logRequest(ctx)
+	tracer.ApmMain.StartTransaction()
 }
 
 func afterRequest(ctx *gin.Context, status int, body string) {
 	models.StartResponse(status, body)
 	MainLog.Printer.logResponse(ctx)
+	tracer.ApmMain.EndTransaction()
 }
