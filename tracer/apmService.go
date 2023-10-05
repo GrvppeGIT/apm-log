@@ -22,6 +22,8 @@ func (ap *ApmService) StartTransaction() {
 	tr := ap.Transaction.TraceContext()
 
 	fmt.Println(tr.Trace.String())
+	fmt.Println(tr.State.String())
+	fmt.Println(tr.Span.String())
 
 }
 
