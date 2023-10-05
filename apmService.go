@@ -1,8 +1,6 @@
-package tracer
+package apmlog
 
 import (
-	"fmt"
-
 	"go.elastic.co/apm/v2"
 )
 
@@ -16,17 +14,12 @@ func (ap *ApmService) Initialize() {
 }
 
 func (ap *ApmService) StartTransaction() {
-
 	ap.Transaction = ap.apmInstance.StartTransaction("test", "request")
-
 	tr := ap.Transaction.TraceContext()
-
-	fmt.Println(tr.Trace.String())
-	fmt.Println(tr.State.String())
-	fmt.Println(tr.Span.String())
-
+	MainLog.Printer.SetTracer(tr.Trace.String(), tr.Span.String())
 }
 
 func (ap *ApmService) EndTransaction() {
 	ap.Transaction.End()
+	MainLog.Printer.ResetTracer()
 }

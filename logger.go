@@ -1,11 +1,11 @@
-package logger
+package apmlog
 
 import (
 	"log"
 
-	"github.com/GrvppeGIT/apm-log/logger/utils"
+	"github.com/GrvppeGIT/apm-log/utils"
 
-	"github.com/GrvppeGIT/apm-log/logger/models"
+	"github.com/GrvppeGIT/apm-log/models"
 )
 
 type Log struct {

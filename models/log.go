@@ -52,6 +52,11 @@ func (l *Log) ResetHttpResponse() {
 	l.HttpResponseStatusCode = 0
 }
 
+func (l *Log) ResetTracers() {
+	l.TraceId = ""
+	l.TransactionId = ""
+}
+
 func (l *Log) SetError(message string, stack_trace string) {
 	l.ErrorMessage = message
 	l.ErrorStackTrace = stack_trace

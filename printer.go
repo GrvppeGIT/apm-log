@@ -1,11 +1,11 @@
-package logger
+package apmlog
 
 import (
 	"encoding/json"
 	"log"
 
-	"github.com/GrvppeGIT/apm-log/logger/models"
-	"github.com/GrvppeGIT/apm-log/logger/utils"
+	"github.com/GrvppeGIT/apm-log/models"
+	"github.com/GrvppeGIT/apm-log/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -22,6 +22,15 @@ func (p *Printer) SetContext(className string) {
 
 func (p *Printer) SetCnpj(cnpj string) {
 	p.log.Cnpj = cnpj
+}
+
+func (p *Printer) SetTracer(traceId string, transactionId string) {
+	p.log.TraceId = traceId
+	p.log.TransactionId = transactionId
+}
+
+func (p *Printer) ResetTracer() {
+	p.log.ResetTracers()
 }
 
 func (p *Printer) Log(message string, context ...string) {

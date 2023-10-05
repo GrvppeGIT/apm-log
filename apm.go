@@ -1,4 +1,4 @@
-package tracer
+package apmlog
 
 import (
 	"github.com/gin-gonic/gin"
@@ -21,6 +21,6 @@ func StartAPM(opt OptionsAPM) {
 
 	ApmMain.Initialize()
 
-	// logger.MainLog.Printer.Log("started APM server")
+	MainLog.Printer.Log("started APM server")
 
 }
