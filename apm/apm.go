@@ -6,17 +6,17 @@ import (
 )
 
 type OptionsAPM struct {
-	engine      *gin.Engine
-	serviceName string
-	serverUrl   string
-	secretKey   string
+	Engine      *gin.Engine
+	ServiceName string
+	ServerUrl   string
+	SecretKey   string
 }
 
 func StartAPM(opt OptionsAPM) {
 
-	SetEnvAPM(opt.serviceName, opt.serverUrl, opt.secretKey)
+	SetEnvAPM(opt.ServiceName, opt.ServerUrl, opt.SecretKey)
 
-	opt.engine.Use(apmgin.Middleware(opt.engine))
+	opt.Engine.Use(apmgin.Middleware(opt.Engine))
 
 	// apm.set
 
