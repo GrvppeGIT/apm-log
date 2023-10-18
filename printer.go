@@ -45,9 +45,9 @@ func (p *Printer) Warn(message string, context ...string) {
 	p.setArguments("warn", message, context)
 }
 
-// func (p *Printer) Error(message string) {
-
-// }
+func (p *Printer) Error(message string, err string, context ...string) {
+	p.setArgumentsError(message, err, context)
+}
 
 // ===========================
 // next, private functions ==>
@@ -74,6 +74,20 @@ func (p *Printer) setArguments(level string, message string, context []string) {
 	p.addContext(context)
 
 	p.stdout()
+
+	p.log.LogLogger = ""
+}
+
+func (p *Printer) setArgumentsError(message string, err string, context []string) {
+	p.log.Timestamp = p.dt.GetDatetime()
+	p.log.Message = message
+	p.log.LogLevel = "error"
+	p.log.SetError(message, err)
+	p.addContext(context)
+
+	p.stdout()
+
+	p.log.LogLogger = ""
 }
 
 func (p *Printer) setArgumentsRequest(ctx *gin.Context) {
@@ -135,7 +149,7 @@ func (p *Printer) resetArgumentsLog() {
 	p.log.Cnpj = ""
 	p.log.Message = ""
 	p.log.LogLevel = "info"
-	p.log.LogLogger = p.context
+	p.log.LogLogger = ""
 
 	p.log.ResetHttpRequest()
 	p.log.ResetHttpResponse()

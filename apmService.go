@@ -1,6 +1,8 @@
 package apmlog
 
 import (
+	"context"
+
 	"go.elastic.co/apm/v2"
 )
 
@@ -22,4 +24,8 @@ func (ap *ApmService) StartTransaction() {
 func (ap *ApmService) EndTransaction() {
 	ap.Transaction.End()
 	MainLog.Printer.ResetTracer()
+}
+
+func (ap *ApmService) CaptureError(ctx context.Context, err error) {
+	apm.CaptureError(ctx, err).Send()
 }

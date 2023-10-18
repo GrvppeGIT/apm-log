@@ -30,8 +30,7 @@ func StartLog(nameApp string, version string, tz string) Log {
 	Logger.SetService(MainLog.Options.Name, MainLog.Options.Version)
 
 	MainLog.Printer.initialize(Logger, Dt)
-	MainLog.Printer.SetContext("Main")
-	MainLog.Printer.Log("Module apm-log started...")
+	MainLog.Printer.Log("Module apm-log started...", "StartLog")
 
 	return MainLog
 }
