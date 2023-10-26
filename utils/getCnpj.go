@@ -14,6 +14,11 @@ func GetCnpj(tokenString string) string {
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok {
+
+		if claims["cnpj"] == nil {
+			return claims["CNPJ"].(string)
+		}
+
 		return claims["cnpj"].(string)
 	}
 
